@@ -75,5 +75,33 @@ RSpec.describe "the application show page" do
         expect(page).to have_content("Pets applied for: #{buddy.name}")
     end
 
+    it "submits the application" do 
+       #application
+       application_1 = Application.create!(name: "John Doe", street_address: "123 Sesame St", city: "Denver", state: "CO", zip_code: "80202", description: "I have big hands.")
+  
+       #shelter
+       shelter = Shelter.create!(foster_program: true, name: "Public Shelter", city: "Denver", rank: 1)
+   
+       #pet
+       buddy = shelter.pets.create!(adoptable: true, age: 3, breed: "Cockapoo", name: "Buddy Howly")
+   
+       visit "/applications/#{application_1.id}"
+       fill_in :search, with: "Buddy Howly"
+       click_button "Search"
+       expect(page).to have_content("Buddy Howly")
+
+       click_button "Adopt this Pet"
+       expect(page).to have_content("Submit my Application")
+       expect(current_path).to eq("/applications/#{application_1.id}")
+       within('section') do 
+        expect(find('h3').text).to eq("Why would you be a good owner?")
+       end
+       fill_in :description, with: "I have big hands"
+       click_button "Submit my Application"
+       expect(current_path).to eq("/applications/#{application_1.id}")
+       expect(page).to have_content("Pending")
+       expect(page).to have_content("Buddy Howly")
+
+    end
 end
 

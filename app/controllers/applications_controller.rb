@@ -3,6 +3,7 @@ class ApplicationsController < ApplicationController
   def show
     @application = Application.find(params[:id])
     @pets = PetApplication.where(application: @application.id)
+    @submitted = false
   end
 
   def new
@@ -32,6 +33,7 @@ class ApplicationsController < ApplicationController
     @pet_application = PetApplication.create!(application: @application, pet: @query.first)
     # @query.first might be problematic.
     redirect_to "/applications/#{@application.id}"
+    @submitted = true
   end
 
   private
