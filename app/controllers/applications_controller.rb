@@ -2,12 +2,7 @@ class ApplicationsController < ApplicationController
 
   def show
     @application = Application.find(params[:id])
-<<<<<<< HEAD
-    @pets = PetApplication.where(application: @application.id)
-    @submitted = false
-=======
     @pet_applications = PetApplication.where(application: @application.id)
->>>>>>> 620378a02e1f3f8b413013b15fc5d33ade7b1b8b
   end
 
   def new
