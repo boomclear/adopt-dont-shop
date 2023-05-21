@@ -2,8 +2,12 @@ class ApplicationsController < ApplicationController
 
   def show
     @application = Application.find(params[:id])
+<<<<<<< HEAD
     @pets = PetApplication.where(application: @application.id)
     @submitted = false
+=======
+    @pet_applications = PetApplication.where(application: @application.id)
+>>>>>>> 620378a02e1f3f8b413013b15fc5d33ade7b1b8b
   end
 
   def new
@@ -28,9 +32,8 @@ class ApplicationsController < ApplicationController
   end
 
   def update
-    search
-    # require 'pry'; binding.pry
-    @pet_application = PetApplication.create!(application: @application, pet: @query.first)
+    show
+    @application.update(application_status: "Pending")
     # @query.first might be problematic.
     redirect_to "/applications/#{@application.id}"
     @submitted = true
